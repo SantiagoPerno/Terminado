@@ -29,38 +29,56 @@ namespace Tesis.Controllers
 
             foreach (var asistencia in Asistencias)
             {
-                // Buscar si ya existe un registro de asistencia para el estudiante y la fecha
                 var asistenciaExistente = await _context.Asistencias
                     .FirstOrDefaultAsync(a => a.EstudianteId == asistencia.Id && a.Fecha == fechaAsistencia);
 
+                var ultimaAsistencia = await _context.Asistencias
+                    .Where(a => a.EstudianteId == asistencia.Id)
+                    .OrderByDescending(a => a.Fecha)
+                    .FirstOrDefaultAsync();
+
+                int nuevasFaltasConsecutivas = 0;
+
+                if(asistencia.Presente == false)
+                {
+                    if (ultimaAsistencia != null && ultimaAsistencia.Presente == false)
+                    {
+                        // Si el estudiante también faltó el día anterior, aumentar el contador
+                        nuevasFaltasConsecutivas = ultimaAsistencia.FaltasConsecutivas + 1;
+                    }
+                }
+                else
+                {
+                    // Si faltó hoy pero asistió el día anterior, comienza con 1
+                    nuevasFaltasConsecutivas = 1;
+                }
+
+
                 if (asistenciaExistente == null)
                 {
-                    // Crear nuevo registro si no existe
+                    // Se crea el registro asumiendo que el estudiante está presente por defecto
                     var nuevaAsistencia = new Asistencias
                     {
                         EstudianteId = asistencia.Id,
                         CursoId = (await _context.Estudiantes.FindAsync(asistencia.Id)).CursoId,
                         Fecha = fechaAsistencia,
-                        Presente = asistencia.Presente // ✅ Guardar estado correcto
+                        Presente = asistencia.Presente, // Se almacena si está ausente o presente
+                        FaltasConsecutivas = nuevasFaltasConsecutivas
                     };
                     _context.Asistencias.Add(nuevaAsistencia);
                 }
                 else
                 {
-                    // Actualizar registro existente
+                    // Se actualiza el registro de asistencia existente
                     asistenciaExistente.Presente = asistencia.Presente;
+                    asistenciaExistente.FaltasConsecutivas = nuevasFaltasConsecutivas;                   
                     _context.Asistencias.Update(asistenciaExistente);
                 }
             }
 
-            // Guardar cambios en la base de datos
             await _context.SaveChangesAsync();
-
-            // Redirigir a la vista de selección de cursos
             return RedirectToAction("Index", "Asistencias");
         }
-
-
 
 
         // GET: Asistencias/EstudiantesPorCurso/1

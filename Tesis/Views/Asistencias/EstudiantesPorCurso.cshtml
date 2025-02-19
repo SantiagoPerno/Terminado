@@ -15,7 +15,7 @@
         <thead>
             <tr>
                 <th>Nombre del Estudiante</th>
-                <th>Presente</th>
+                <th>Ausente</th>
                 <th>Asistencias</th>
                 <th>Faltas</th>
             </tr>
@@ -30,10 +30,12 @@
                         <input type="hidden" name="Asistencias[@i].Id" value="@estudiante.Id" />
                     </td>
 
-                    <td>
-                        <input type="checkbox" name="Asistencias[@i].Presente" value="true" class="form-check-input"
+                    <td>                  
+                        <input type="checkbox" name="Asistencias[@i].Presente" value="false" class="form-check-input"
                         @(estudiante.Presente ? "checked" : "") />
                         <input type="hidden" name="Asistencias[@i].Id" value="@estudiante.Id" />
+
+                        <input type="hidden" name="Asistencias[@i].Presente" value="true" />                  
                     </td>
 
                     <td>@estudiante.TotalAsistencias</td>

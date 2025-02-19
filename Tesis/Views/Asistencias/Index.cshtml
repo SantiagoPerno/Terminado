@@ -51,10 +51,16 @@
                                 <tbody>
                                     @foreach (var estudiante in estudiantesAusentes)
                                     {
+
+                                        var faltasConsecutivas = estudiante.Asistencias
+                                        .OrderByDescending(a => a.Fecha)
+                                        .TakeWhile(a => !a.Presente)
+                                        .Count();
+
                                         <tr>
                                             <td>@estudiante.Nombre</td>
                                             <td>@estudiante.Apellido</td>
-                                            <td></td>
+                                            <td>@faltasConsecutivas</td>
                                             <td>@estudiante.Asistencias.Count(a => !a.Presente)</td>
                                         </tr>
                                     }

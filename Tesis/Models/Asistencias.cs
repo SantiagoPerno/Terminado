@@ -24,7 +24,8 @@ namespace Tesis.Models
             public DateTime Fecha { get; set; } // Fecha de la asistencia
 
             public bool Presente { get; set; } // Indicador de asistencia (presente o ausente)
-        
+
+            public int FaltasConsecutivas { get; set; } 
     }
 }
 

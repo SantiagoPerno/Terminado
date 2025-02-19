@@ -3,28 +3,8 @@
   "WorkspaceRootPath": "D:\\Tesis\\Tesis\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\controllers\\estudiantescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\controllers\\estudiantescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\models\\estudiantes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\models\\estudiantes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\controllers\\asistenciascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\controllers\\asistenciascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\views\\asistencias\\estudiantesporcurso.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\views\\asistencias\\estudiantesporcurso.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\views\\asistencias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\views\\asistencias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|d:\\tesis\\tesis\\tesis\\viewmodels\\estudianteasistenciaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6030C082-5D14-4381-A638-A0FF85163984}|Tesis\\Tesis.csproj|solutionrelative:tesis\\viewmodels\\estudianteasistenciaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Tesis\\Tesis\\Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,78 +26,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Estudiantes.cs",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Models\\Estudiantes.cs",
-              "RelativeDocumentMoniker": "Tesis\\Models\\Estudiantes.cs",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Models\\Estudiantes.cs",
-              "RelativeToolTip": "Tesis\\Models\\Estudiantes.cs",
+              "DocumentIndex": 0,
+              "Title": "20250218213954_faltasConsecutivas.cs",
+              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs",
+              "RelativeDocumentMoniker": "Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs",
+              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs",
+              "RelativeToolTip": "Tesis\\Migrations\\20250218213954_faltasConsecutivas.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-15T14:19:06.235Z",
+              "WhenOpened": "2025-02-18T21:39:54.371Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EstudiantesController.cs",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Controllers\\EstudiantesController.cs",
-              "RelativeDocumentMoniker": "Tesis\\Controllers\\EstudiantesController.cs",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Controllers\\EstudiantesController.cs",
-              "RelativeToolTip": "Tesis\\Controllers\\EstudiantesController.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAwwFkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-15T14:14:49.48Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AsistenciasController.cs",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Controllers\\AsistenciasController.cs",
-              "RelativeDocumentMoniker": "Tesis\\Controllers\\AsistenciasController.cs",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Controllers\\AsistenciasController.cs",
-              "RelativeToolTip": "Tesis\\Controllers\\AsistenciasController.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAIwC4AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T20:40:10.941Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "EstudiantesPorCurso.cshtml",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Views\\Asistencias\\EstudiantesPorCurso.cshtml",
-              "RelativeDocumentMoniker": "Tesis\\Views\\Asistencias\\EstudiantesPorCurso.cshtml",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Views\\Asistencias\\EstudiantesPorCurso.cshtml",
-              "RelativeToolTip": "Tesis\\Views\\Asistencias\\EstudiantesPorCurso.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAUwCQAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-14T20:36:08.743Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\Views\\Asistencias\\Index.cshtml",
-              "RelativeDocumentMoniker": "Tesis\\Views\\Asistencias\\Index.cshtml",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\Views\\Asistencias\\Index.cshtml",
-              "RelativeToolTip": "Tesis\\Views\\Asistencias\\Index.cshtml",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAUwC4AAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-14T20:27:21.558Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "EstudianteAsistenciaViewModel.cs",
-              "DocumentMoniker": "D:\\Tesis\\Tesis\\Tesis\\ViewModels\\EstudianteAsistenciaViewModel.cs",
-              "RelativeDocumentMoniker": "Tesis\\ViewModels\\EstudianteAsistenciaViewModel.cs",
-              "ToolTip": "D:\\Tesis\\Tesis\\Tesis\\ViewModels\\EstudianteAsistenciaViewModel.cs",
-              "RelativeToolTip": "Tesis\\ViewModels\\EstudianteAsistenciaViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-14T20:40:42.948Z"
             }
           ]
         }
