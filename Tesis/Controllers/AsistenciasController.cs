@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Tesis.Models;
 using Tesis.ViewModels;
@@ -32,46 +33,30 @@ namespace Tesis.Controllers
                 var asistenciaExistente = await _context.Asistencias
                     .FirstOrDefaultAsync(a => a.EstudianteId == asistencia.Id && a.Fecha == fechaAsistencia);
 
-                var ultimaAsistencia = await _context.Asistencias
-                    .Where(a => a.EstudianteId == asistencia.Id)
-                    .OrderByDescending(a => a.Fecha)
-                    .FirstOrDefaultAsync();
-
-                int nuevasFaltasConsecutivas = 0;
-
-                if(asistencia.Presente == false)
-                {
-                    if (ultimaAsistencia != null && ultimaAsistencia.Presente == false)
-                    {
-                        // Si el estudiante también faltó el día anterior, aumentar el contador
-                        nuevasFaltasConsecutivas = ultimaAsistencia.FaltasConsecutivas + 1;
-                    }
-                }
-                else
-                {
-                    // Si faltó hoy pero asistió el día anterior, comienza con 1
-                    nuevasFaltasConsecutivas = 1;
-                }
-
-
                 if (asistenciaExistente == null)
                 {
-                    // Se crea el registro asumiendo que el estudiante está presente por defecto
                     var nuevaAsistencia = new Asistencias
                     {
                         EstudianteId = asistencia.Id,
                         CursoId = (await _context.Estudiantes.FindAsync(asistencia.Id)).CursoId,
                         Fecha = fechaAsistencia,
-                        Presente = asistencia.Presente, // Se almacena si está ausente o presente
-                        FaltasConsecutivas = nuevasFaltasConsecutivas
+                        Estado = asistencia.Estado,
+                        Presente = asistencia.Estado == "Presente",              
+                        AusenteJustificado = asistencia.Estado == "AusenteJustificado",
+                        AusenteInjustificado = asistencia.Estado == "AusenteInjustificado",
+                        TardanzaUncuarto = asistencia.Estado == "TardanzaUncuarto",
+                        TardanzaMedia = asistencia.Estado == "TardanzaMedia"
                     };
                     _context.Asistencias.Add(nuevaAsistencia);
                 }
                 else
                 {
-                    // Se actualiza el registro de asistencia existente
-                    asistenciaExistente.Presente = asistencia.Presente;
-                    asistenciaExistente.FaltasConsecutivas = nuevasFaltasConsecutivas;                   
+                    asistenciaExistente.Estado = asistencia.Estado;
+                    asistenciaExistente.Presente = asistencia.Estado == "Presente";                
+                    asistenciaExistente.AusenteJustificado = asistencia.Estado == "AusenteJustificado";
+                    asistenciaExistente.AusenteInjustificado = asistencia.Estado == "AusenteInjustificado";
+                    asistenciaExistente.TardanzaUncuarto = asistencia.Estado == "TardanzaUncuarto";
+                    asistenciaExistente.TardanzaMedia = asistencia.Estado == "TardanzaMedia";
                     _context.Asistencias.Update(asistenciaExistente);
                 }
             }
@@ -83,31 +68,50 @@ namespace Tesis.Controllers
 
         // GET: Asistencias/EstudiantesPorCurso/1
 
-        public async Task<IActionResult> EstudiantesPorCurso(int id)
+        public async Task<IActionResult> EstudiantesPorCurso(int id, DateTime? fecha)
         {
-            // Verifica que el curso existe
+            fecha ??= DateTime.Today;
+
             var curso = await _context.Cursos.FindAsync(id);
             if (curso == null)
             {
                 return NotFound();
             }
 
-            // Obtiene los estudiantes y calcula asistencias e inasistencias
             var estudiantes = await _context.Estudiantes
                 .Where(e => e.CursoId == id)
-                .Select(e => new EstudianteAsistenciaViewModel
-                {
-                    Id = e.Id,
-                    Nombre = e.Nombre,
-                    TotalAsistencias = _context.Asistencias.Count(a => a.EstudianteId == e.Id && a.Presente),
-                    TotalInasistencias = _context.Asistencias.Count(a => a.EstudianteId == e.Id && !a.Presente)
-                })
                 .ToListAsync();
 
-            ViewBag.CursoNombre = curso.Nombre;
+            var asistencias = await _context.Asistencias
+                .Where(a => estudiantes.Select(e => e.Id).Contains(a.EstudianteId))
+                .ToListAsync();
 
-            return View(estudiantes);
+            var estudiantesViewModel = estudiantes.Select(e => new EstudianteAsistenciaViewModel
+            {
+                Id = e.Id,
+                Nombre = e.Nombre,
+                Apellido = e.Apellido,
+                Estado = asistencias.FirstOrDefault(a => a.EstudianteId == e.Id)?.Estado ?? "Presente",
+                Fecha = fecha.Value,
+
+                TotalPresente = asistencias.Count(a => a.EstudianteId == e.Id && a.Presente),
+                TotalAusenteJustificado = asistencias.Count(a => a.EstudianteId == e.Id && a.AusenteJustificado),
+                TotalAusenteInjustificado = asistencias.Count(a => a.EstudianteId == e.Id && a.AusenteInjustificado),
+                TotalTardanzaUncuarto = asistencias.Count(a => a.EstudianteId == e.Id && a.TardanzaUncuarto),
+                TotalTardanzaMedia = asistencias.Count(a => a.EstudianteId == e.Id && a.TardanzaMedia),
+
+             
+
+
+            }).ToList();
+
+            ViewBag.CursoNombre = curso.Nombre;
+            ViewBag.CursoId = id;
+            ViewBag.FechaSeleccionada = fecha.Value.ToString("yyyy-MM-dd");
+
+            return View(estudiantesViewModel);
         }
+
 
 
         // GET: Asistencias

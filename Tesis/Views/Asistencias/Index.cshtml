@@ -44,6 +44,7 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Apellido</th>
+                                        <th>Categoría</th>
                                         <th>Faltas Consecutivas</th>
                                         <th>Faltas Totales</th>
                                     </tr>
@@ -51,17 +52,50 @@
                                 <tbody>
                                     @foreach (var estudiante in estudiantesAusentes)
                                     {
+                                        var ultimaAsistencia = estudiante.Asistencias
+                                            .OrderByDescending(a => a.Fecha)
+                                            .FirstOrDefault();
 
                                         var faltasConsecutivas = estudiante.Asistencias
-                                        .OrderByDescending(a => a.Fecha)
-                                        .TakeWhile(a => !a.Presente)
-                                        .Count();
+                                            .OrderByDescending(a => a.Fecha)
+                                            .TakeWhile(a => !a.Presente && !a.TardanzaUncuarto && !a.TardanzaMedia)
+                                            .Count();
 
+                                        var totalFaltasCalculadas = estudiante.Asistencias
+                                            .Count(a => a.AusenteJustificado || a.AusenteInjustificado)
+                                            + estudiante.Asistencias.Count(a => a.TardanzaUncuarto) * 0.25
+                                            + estudiante.Asistencias.Count(a => a.TardanzaMedia) * 0.5;
+                               
                                         <tr>
                                             <td>@estudiante.Nombre</td>
                                             <td>@estudiante.Apellido</td>
-                                            <td>@faltasConsecutivas</td>
-                                            <td>@estudiante.Asistencias.Count(a => !a.Presente)</td>
+                                            <td>
+                                                @if (ultimaAsistencia != null)
+                                                {
+                                                    string categoriaOrdenPalabras = ultimaAsistencia.Estado switch
+                                                    {
+                                                        "AusenteJustificado" => "Ausente Justificado",
+                                                        "AusenteInjustificado" => "Ausente Injustificado",
+                                                        "TardanzaUncuarto" => "Tardanza 1/4 (0,25)",
+                                                        "TardanzaMedia" => "Tardanza 1/2 (0,5)",
+                                                        _ => ultimaAsistencia.Estado
+                                                    };
+                                                    @categoriaOrdenPalabras
+                                                } else
+                                                {
+                                                    <span>No registrado</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @faltasConsecutivas
+                                                @if (new[] { 3, 5, 10, 15, 20, 25 }.Contains(faltasConsecutivas))
+                                                {
+                                                    <button class="btn btn-danger btn-sm ms-2">
+                                                        🚨 AVISAR
+                                                    </button>
+                                                }
+                                            </td>
+                                            <td>@totalFaltasCalculadas</td>
                                         </tr>
                                     }
                                 </tbody>

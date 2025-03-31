@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tesis.Models;
 
@@ -11,9 +12,11 @@ using Tesis.Models;
 namespace Tesis.Migrations
 {
     [DbContext(typeof(DbtesisContext))]
-    partial class DbtesisContextModelSnapshot : ModelSnapshot
+    [Migration("20250220142843_Actualizacion")]
+    partial class Actualizacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +33,9 @@ namespace Tesis.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Ausente")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("AusenteInjustificado")
                         .HasColumnType("bit");
 
@@ -38,10 +44,6 @@ namespace Tesis.Migrations
 
                     b.Property<int>("CursoId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EstudianteId")
                         .HasColumnType("int");
@@ -55,10 +57,7 @@ namespace Tesis.Migrations
                     b.Property<bool>("Presente")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("TardanzaMedia")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TardanzaUncuarto")
+                    b.Property<bool>("Tardanza")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

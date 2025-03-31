@@ -17,8 +17,19 @@ namespace Tesis.Models
         [Required(ErrorMessage = "Campo obligatorio.")]
         public int DNI { get; set; }
 
+        [Required(ErrorMessage ="Campo obligatorio.")]
+        public string Sexo { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Campo obligatorio")]
+        public string CUIL { get; set; } = string.Empty; //Cadena vacía en vez de null, aunque el requerid ya evita que sea null
+
         [Required(ErrorMessage = "Campo obligatorio.")]
         public int Legajo { get; set; }
+
+        public GrupoSanguineo GrupoSanguineo { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Antitetanica { get; set; }
 
         public string? Email { get; set; } 
         public string? Direccion { get; set; } 
@@ -31,8 +42,6 @@ namespace Tesis.Models
         public string? TelefonoMadre { get; set; }
         public string? NombreTutor { get; set; }
         public string? TelefonoTutor { get; set; }
-
-        [Required(ErrorMessage = "Seleccionar un curso.")]
         public int CursoId { get; set; }
 
         [ForeignKey("CursoId")]
@@ -42,6 +51,16 @@ namespace Tesis.Models
         public int TotalFaltas { get; set; }
         public ICollection<Asistencias> Asistencias { get; set; } = new List<Asistencias>();
     }
-
+    public enum GrupoSanguineo
+    {
+        A_Pos,
+        A_Neg,
+        B_Pos,
+        B_Neg,
+        AB_Pos,
+        AB_Neg,
+        O_Pos,
+        O_Neg
+    }
 
 }

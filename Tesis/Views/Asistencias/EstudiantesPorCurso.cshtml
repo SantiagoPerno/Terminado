@@ -5,19 +5,30 @@
 }
 
 <h1>Estudiantes del Curso: @ViewBag.CursoNombre</h1>
-<h6>Fecha: @DateTime.Now.ToString("dd/MM/yyyy")</h6>
+
+<!-- Selector de Fecha -->
+<form method="get" asp-action="EstudiantesPorCurso">
+    <input type="hidden" name="id" value="@ViewBag.CursoId" />
+    <label for="fecha">Seleccionar fecha:</label>
+    <input type="date" name="fecha" value="@ViewBag.FechaSeleccionada" />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
 
 <!-- Formulario para guardar todas las asistencias -->
 <form asp-action="GuardarAsistencias" method="post">
-    <input type="hidden" name="Fecha" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+    <input type="hidden" name="Fecha" value="@ViewBag.FechaSeleccionada" />
+    <input type="hidden" name="CursoId" value="@ViewBag.CursoId" />
 
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre del Estudiante</th>
-                <th>Ausente</th>
-                <th>Asistencias</th>
-                <th>Faltas</th>
+                <th>Estudiante</th>
+                <th>Presente</th>
+                <th>Ausente Justificado</th>
+                <th>Ausente Injustificado</th>
+                <th>Tardanza 1/4</th>
+                <th>Tardanza 1/2</th>
+                <th>Total Faltas</th>
             </tr>
         </thead>
         <tbody>
@@ -26,20 +37,31 @@
                 var estudiante = Model.ElementAt(i);
                 <tr>
                     <td>
-                        @estudiante.Nombre
+                        @estudiante.Nombre @estudiante.Apellido
                         <input type="hidden" name="Asistencias[@i].Id" value="@estudiante.Id" />
                     </td>
 
-                    <td>                  
-                        <input type="checkbox" name="Asistencias[@i].Presente" value="false" class="form-check-input"
-                        @(estudiante.Presente ? "checked" : "") />
-                        <input type="hidden" name="Asistencias[@i].Id" value="@estudiante.Id" />
-
-                        <input type="hidden" name="Asistencias[@i].Presente" value="true" />                  
+                    <td>
+                        <input type="radio" name="Asistencias[@i].Estado" value="Presente" @(estudiante.Estado == "Presente" ? "checked" : "") />
                     </td>
 
-                    <td>@estudiante.TotalAsistencias</td>
-                    <td>@estudiante.TotalInasistencias</td>
+                    <td>
+                        <input type="radio" name="Asistencias[@i].Estado" value="AusenteJustificado" @(estudiante.Estado == "AusenteJustificado" ? "checked" : "") />
+                    </td>
+
+                    <td>
+                        <input type="radio" name="Asistencias[@i].Estado" value="AusenteInjustificado" @(estudiante.Estado == "AusenteInjustificado" ? "checked" : "") />
+                    </td>
+
+                    <td>
+                        <input type="radio" name="Asistencias[@i].Estado" value="TardanzaUncuarto" @(estudiante.Estado == "TardanzaUncuarto" ? "checked" : "") />
+                    </td>
+
+                    <td>
+                        <input type="radio" name="Asistencias[@i].Estado" value="TardanzaMedia" @(estudiante.Estado == "TardanzaMedia" ? "checked" : "")/>
+                    </td>
+
+                    <td>@estudiante.TotalFaltasCalculadas</td>
                 </tr>
             }
         </tbody>

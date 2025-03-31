@@ -26,6 +26,12 @@ namespace Tesis.Controllers
         {
             if (selectedEstudiantes != null && selectedEstudiantes.Length > 0)
             {
+                //eliminar asistencias de los estudiantes
+
+                var asistencias = _context.Asistencias.Where(a => selectedEstudiantes.Contains(a.EstudianteId)).ToList();
+                _context.Asistencias.RemoveRange(asistencias);
+                await _context.SaveChangesAsync();
+                    
                 var estudiantes = _context.Estudiantes.Where(e => selectedEstudiantes.Contains(e.Id)).ToList();
                 _context.Estudiantes.RemoveRange(estudiantes);
                 await _context.SaveChangesAsync();

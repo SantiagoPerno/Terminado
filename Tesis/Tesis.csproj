@@ -8,6 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20250204133841_AddKeyToEstudiantes.cs" />
+    <Compile Remove="Migrations\20250204133841_AddKeyToEstudiantes.Designer.cs" />
+    <Compile Remove="Migrations\20250211135905_AgregarCascadeDelete.cs" />
+    <Compile Remove="Migrations\20250211135905_AgregarCascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20250211140323_updateCascadeDelete.cs" />
+    <Compile Remove="Migrations\20250211140323_updateCascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20250211141436_update1CascadeDelete.cs" />
+    <Compile Remove="Migrations\20250211141436_update1CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20250220142843_Actualizacion.cs" />
+    <Compile Remove="Migrations\20250220142843_Actualizacion.Designer.cs" />
+    <Compile Remove="Migrations\20250220192245_ActualizacionViewModel.cs" />
+    <Compile Remove="Migrations\20250220192245_ActualizacionViewModel.Designer.cs" />
+    <Compile Remove="Migrations\20250306171038_ActClaseAsistenciaCascade.cs" />
+    <Compile Remove="Migrations\20250306171038_ActClaseAsistenciaCascade.Designer.cs" />
+    <Compile Remove="Migrations\20250306175505_ActTardanzasEstViewModel.cs" />
+    <Compile Remove="Migrations\20250306175505_ActTardanzasEstViewModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.8.4" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.12" />
