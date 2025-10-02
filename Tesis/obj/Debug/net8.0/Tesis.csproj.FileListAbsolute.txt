@@ -888,12 +888,6 @@ C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\scopedcss\projectbundle\Te
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets\msbuild.Tesis.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets\msbuild.Tesis.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets\msbuild.build.Tesis.props
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Tesis.props
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Tesis.props
-C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\Tesis.csproj.Up2Date
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\Tesis.dll
@@ -901,3 +895,8 @@ C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\refint\Tesis.dll
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\Tesis.pdb
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\Tesis.genruntimeconfig.cache
 C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\ref\Tesis.dll
+C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Santi\Desktop\T\Tesis\Tesis\obj\Debug\net8.0\staticwebassets.build.json.cache

@@ -2,111 +2,116 @@
 
 @{
     ViewData["Title"] = "Asistencias";
-    var fechaHoy = DateTime.Now.ToString("dd/MM/yyyy"); // Fecha actual
+    var fechaSeleccionada = DateTime.Today;
+    var fechaHoy = fechaSeleccionada.ToString("yyyy-MM-dd");
 }
 
-<div class="container mt-3">
-    <div class="row">
-        <!-- Columna Izquierda: Selección de Cursos -->
-        <div class="col-md-4">
-            <h4>Seleccionar un curso</h4>
-            <h6>Fecha: @fechaHoy</h6>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-            @foreach (var curso in Model)
-            {
-                <div class="mb-2">
-                    <a asp-action="EstudiantesPorCurso" asp-route-id="@curso.Id" class="btn btn-primary btn-lg px-3">
-                        @curso.Nombre
-                    </a>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Columna Izquierda -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="mb-3">📚 Cursos disponibles</h4>
+
+                    @foreach (var curso in Model)
+                    {
+                        <a asp-action="EstudiantesPorCurso" asp-route-id="@curso.Id" class="btn btn-outline-primary w-100 mb-2 text-start">
+                            <i class="bi bi-people-fill me-2"></i> @curso.Nombre
+                        </a>
+                    }
                 </div>
-            }
+            </div>
         </div>
 
-        <!-- Columna Derecha: Informe Diario -->
+        <!-- Columna Derecha -->
         <div class="col-md-8">
-            <h4>Informe Diario</h4>
+            <h3 class="mb-4">📄 Informe Diario - <span class="text-primary">@fechaSeleccionada.ToString("dd/MM/yyyy")</span></h3>
 
             @foreach (var curso in Model)
             {
                 var estudiantesAusentes = curso.Estudiantes
-                .Where(e => e.Asistencias.Any(a => a.Fecha.Date == DateTime.Today && !a.Presente)) // Filtra faltas de hoy
+                .Where(e => e.Asistencias.Any(a => a.Fecha.Date == fechaSeleccionada && !a.Presente))
                 .ToList();
 
-                <!-- Título con el nombre del curso -->
-                <h3 class="mt-4">@curso.Nombre</h3>
-                <h5 class="text-danger">Ausentes</h5> <!-- Subtítulo en rojo -->
-                if (estudiantesAusentes.Any())
-                {
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
-                                        <th>Categoría</th>
-                                        <th>Faltas Consecutivas</th>
-                                        <th>Faltas Totales</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var estudiante in estudiantesAusentes)
-                                    {
-                                        var ultimaAsistencia = estudiante.Asistencias
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">@curso.Nombre</h5>
+                        <span class="text-danger fw-semibold">Ausentes</span>
+                    </div>
+
+                    <div class="card-body">
+                        @if (estudiantesAusentes.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered align-middle text-center">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>Categoría</th>
+                                            <th>Faltas Consecutivas</th>
+                                            <th>Faltas Totales</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var estudiante in estudiantesAusentes)
+                                        {
+                                            var ultimaAsistencia = estudiante.Asistencias
+                                            .Where(a => a.Fecha.Date == fechaSeleccionada)
                                             .OrderByDescending(a => a.Fecha)
                                             .FirstOrDefault();
 
-                                        var faltasConsecutivas = estudiante.Asistencias
+                                            var faltasConsecutivas = estudiante.Asistencias
                                             .OrderByDescending(a => a.Fecha)
                                             .TakeWhile(a => !a.Presente && !a.TardanzaUncuarto && !a.TardanzaMedia)
                                             .Count();
 
-                                        var totalFaltasCalculadas = estudiante.Asistencias
+                                            var totalFaltasCalculadas = estudiante.Asistencias
                                             .Count(a => a.AusenteJustificado || a.AusenteInjustificado)
                                             + estudiante.Asistencias.Count(a => a.TardanzaUncuarto) * 0.25
                                             + estudiante.Asistencias.Count(a => a.TardanzaMedia) * 0.5;
-                               
-                                        <tr>
-                                            <td>@estudiante.Nombre</td>
-                                            <td>@estudiante.Apellido</td>
-                                            <td>
-                                                @if (ultimaAsistencia != null)
-                                                {
-                                                    string categoriaOrdenPalabras = ultimaAsistencia.Estado switch
+
+                                            string categoria = ultimaAsistencia?.Estado switch
+                                            {
+                                                "AusenteJustificado" => "Ausente Justificado",
+                                                "AusenteInjustificado" => "Ausente Injustificado",
+                                                "TardanzaUncuarto" => "Tardanza 1/4 (0,25)",
+                                                "TardanzaMedia" => "Tardanza 1/2 (0,5)",
+                                                _ => ultimaAsistencia?.Estado ?? "Sin registrar"
+                                            };
+
+                                            <tr>
+                                                <td>@estudiante.Nombre</td>
+                                                <td>@estudiante.Apellido</td>
+                                                <td>
+                                                    <span class="badge bg-info text-dark">@categoria</span>
+                                                </td>
+                                                <td>
+                                                    @faltasConsecutivas
+                                                    @if (new[] { 3, 5, 10, 15, 20, 25 }.Contains(faltasConsecutivas))
                                                     {
-                                                        "AusenteJustificado" => "Ausente Justificado",
-                                                        "AusenteInjustificado" => "Ausente Injustificado",
-                                                        "TardanzaUncuarto" => "Tardanza 1/4 (0,25)",
-                                                        "TardanzaMedia" => "Tardanza 1/2 (0,5)",
-                                                        _ => ultimaAsistencia.Estado
-                                                    };
-                                                    @categoriaOrdenPalabras
-                                                } else
-                                                {
-                                                    <span>No registrado</span>
-                                                }
-                                            </td>
-                                            <td>
-                                                @faltasConsecutivas
-                                                @if (new[] { 3, 5, 10, 15, 20, 25 }.Contains(faltasConsecutivas))
-                                                {
-                                                    <button class="btn btn-danger btn-sm ms-2">
-                                                        🚨 AVISAR
-                                                    </button>
-                                                }
-                                            </td>
-                                            <td>@totalFaltasCalculadas</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                                        <a class="btn btn-sm btn-outline-danger ms-2" href="https://wa.me/?text=Aviso%20de%20faltas%20para%20@estudiante.Nombre%20@estudiante.Apellido" target="_blank">
+                                                            🚨 Avisar
+                                                        </a>
+                                                    }
+                                                </td>
+                                                <td>@totalFaltasCalculadas</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No hay estudiantes ausentes en <strong>@curso.Nombre</strong>.</p>
+                        }
                     </div>
-                }
-                else
-                {
-                    <p class="text-muted">No hay estudiantes ausentes en @curso.Nombre.</p>
-                }
+                </div>
+                
             }
         </div>
     </div>

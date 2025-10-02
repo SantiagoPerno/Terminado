@@ -1,21 +1,71 @@
 ﻿@model Tesis.Models.Cursos
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Ficha médica";
 }
+
+<style>
+    .tabla-ficha th,
+    .tabla-ficha td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .tabla-ficha thead th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .tabla-ficha tbody tr {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        .tabla-ficha tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+    .checkbox-rounded {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid #999;
+        background-color: white;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .checkbox-rounded:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+    .btn-volver {
+        margin-top: 20px;
+    }
+
+    h2 {
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+</style>
 
 <h2>Estudiantes de: @Model.Nombre</h2>
 
-<table class="table">
+<table class="table tabla-ficha">
     <thead>
         <tr>
             <th>Estudiante</th>
             <th>Faltas</th>
-            <th colspan="5" class="text-center">Ficha médica</th> <!-- Se agrupan las 5 columnas -->
+            <th colspan="5" class="text-center">📋 Ficha médica</th>
         </tr>
         <tr>
-            <th></th> <!-- Espacio para Estudiante -->
-            <th></th> <!-- Espacio para Faltas -->
+            <th></th>
+            <th></th>
             <th>Título 1</th>
             <th>Título 2</th>
             <th>Título 3</th>
@@ -27,18 +77,20 @@
         @foreach (var estudiante in Model.Estudiantes)
         {
             <tr>
-                <td>@estudiante.Nombre @estudiante.Apellido</td>
+                <td class="text-start">@estudiante.Nombre @estudiante.Apellido</td>
                 <td>@estudiante.TotalFaltas</td>
-                <td><input type="checkbox" name="titulo1[@estudiante.Id]" /></td>
-                <td><input type="checkbox" name="titulo2[@estudiante.Id]" /></td>
-                <td><input type="checkbox" name="titulo3[@estudiante.Id]" /></td>
-                <td><input type="checkbox" name="titulo4[@estudiante.Id]" /></td>
-                <td><input type="checkbox" name="titulo5[@estudiante.Id]" /></td>
+                <td><input class="checkbox-rounded" type="checkbox" name="titulo1[@estudiante.Id]" /></td>
+                <td><input class="checkbox-rounded" type="checkbox" name="titulo2[@estudiante.Id]" /></td>
+                <td><input class="checkbox-rounded" type="checkbox" name="titulo3[@estudiante.Id]" /></td>
+                <td><input class="checkbox-rounded" type="checkbox" name="titulo4[@estudiante.Id]" /></td>
+                <td><input class="checkbox-rounded" type="checkbox" name="titulo5[@estudiante.Id]" /></td>
             </tr>
         }
     </tbody>
 </table>
 
-<div class="d-flex justify-content-lg-between gap-2 mt-3">
-    <a asp-action="Index" class="btn btn-secondary w-auto px-4">Volver</a>
+<div class="d-flex justify-content-start mt-3">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
 </div>
