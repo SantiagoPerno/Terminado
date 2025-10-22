@@ -93,13 +93,19 @@
                                                     @faltasConsecutivas
                                                     @if (new[] { 3, 5, 10, 15, 20, 25 }.Contains(faltasConsecutivas))
                                                     {
-                                                        <a class="btn btn-sm btn-outline-danger ms-2" href="https://wa.me/?text=Aviso%20de%20faltas%20para%20@estudiante.Nombre%20@estudiante.Apellido" target="_blank">
+                                                        var mensaje = $"Se notifica que el/la estudiante {estudiante.Nombre} {estudiante.Apellido} tiene {faltasConsecutivas} faltas consecutivas.";
+                                                        var mensajeCodificado = System.Net.WebUtility.UrlEncode(mensaje);
+
+                                                        <a class="btn btn-sm btn-outline-danger ms-2"
+                                                           href="https://wa.me/?text=@mensajeCodificado"
+                                                           target="_blank">
                                                             🚨 Avisar
                                                         </a>
                                                     }
                                                 </td>
                                                 <td>@totalFaltasCalculadas</td>
                                             </tr>
+
                                         }
                                     </tbody>
                                 </table>

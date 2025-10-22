@@ -5,7 +5,7 @@ using Tesis.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar la cadena de conexión desde appsettings.json
+// Configurar la cadena de conexiï¿½n desde appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("connectionString")
     ?? throw new InvalidOperationException("Connection string 'connectionString' not found.");
 
@@ -52,7 +52,7 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    // Asegúrate de que los roles están creados
+    // Asegï¿½rate de que los roles estï¿½n creados
     string[] roles = { "Administrador", "Gestion" };
     foreach (var role in roles)
     {
@@ -85,7 +85,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-// Configuración del pipeline HTTP
+// Configuraciï¿½n del pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -101,6 +101,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

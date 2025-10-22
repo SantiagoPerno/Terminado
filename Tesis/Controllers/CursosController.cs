@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using OfficeOpenXml.Style;
-using OfficeOpenXml;
 using Tesis.Models;
 using Tesis.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Tesis.Controllers
 {
+
+    [Authorize(Roles = "Administrador, Gestion")]
     public class CursosController : Controller
     {
         private readonly DbtesisContext _context;
@@ -96,7 +100,11 @@ namespace Tesis.Controllers
             }
         }
 
+
         // GET: Cursos/ListaEstudiantes
+
+
+       
         public async Task<IActionResult> ListaEstudiantes(int id)
         {
             var curso = await _context.Cursos
@@ -124,24 +132,141 @@ namespace Tesis.Controllers
         }
 
         // GET: Cursos/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+        public async Task<IActionResult> CursoFaltaTotales(int id)
         {
-            if (id == null)
+            var curso = await _context.Cursos.FirstOrDefaultAsync(c => c.Id == id);
+            if (curso == null) return NotFound();
+
+            var estudiantes = await _context.Estudiantes
+                .Where(e => e.CursoId == id)
+                .ToListAsync();
+
+            var viewModel = new CursoFichaMedicaViewModel
             {
-                return NotFound();
+                Curso = curso,
+                Estudiantes = new List<EstudianteConFaltasViewModel>()
+            };
+
+            foreach (var estudiante in estudiantes)
+            {
+                var faltas = await _context.Asistencias
+                    .Where(a => a.EstudianteId == estudiante.Id && !a.Presente)
+                    .CountAsync();
+
+                viewModel.Estudiantes.Add(new EstudianteConFaltasViewModel
+                {
+                    Id = estudiante.Id,
+                    Nombre = estudiante.Nombre,
+                    Apellido = estudiante.Apellido,
+                    TieneDni = estudiante.TieneDni,
+                    TieneDniPadre = estudiante.TieneDniPadre,
+                    TieneDniMadre = estudiante.TieneDniMadre,
+                    TieneDniTutor = estudiante.TieneDniTutor,
+                    TienePartidaNacimiento = estudiante.TienePartidaNacimiento,
+                    TieneCUS = estudiante.TieneCUS,
+                    TieneISA = estudiante.TieneISA,
+                    TieneConstanciaDomicilio = estudiante.TieneConstanciaDomicilio,
+                    TotalFaltasCalculadas = faltas
+                });
             }
 
-            var cursos = await _context.Cursos
-                .Include(c => c.Estudiantes)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            
-            if (cursos == null)
-            {
-                return NotFound();
-            }
-
-            return View(cursos);
+            return View(viewModel);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarFichaMedica(int cursoId, [FromForm] List<LegajoEstudianteDto> datos)
+        {
+            System.Diagnostics.Debug.WriteLine($"Curso ID recibido: {cursoId}");
+            System.Diagnostics.Debug.WriteLine($"Cantidad de estudiantes en el form: {datos.Count}");
+
+            foreach (var dto in datos)
+            {
+                System.Diagnostics.Debug.WriteLine($"Estudiante ID: {dto.Id}");
+                System.Diagnostics.Debug.WriteLine($"TieneDni: {dto.TieneDni}");
+                System.Diagnostics.Debug.WriteLine($"TieneDniPadre: {dto.TieneDniPadre}");
+                System.Diagnostics.Debug.WriteLine($"TieneDniMadre: {dto.TieneDniMadre}");
+                System.Diagnostics.Debug.WriteLine($"TieneDniTutor: {dto.TieneDniTutor}");
+                System.Diagnostics.Debug.WriteLine($"TienePartidaNacimiento: {dto.TienePartidaNacimiento}");
+                System.Diagnostics.Debug.WriteLine($"TieneCUS: {dto.TieneCUS}");
+                System.Diagnostics.Debug.WriteLine($"TieneISA: {dto.TieneISA}");
+                System.Diagnostics.Debug.WriteLine($"TieneConstanciaDomicilio: {dto.TieneConstanciaDomicilio}");
+
+                var estudiante = await _context.Estudiantes.FindAsync(dto.Id);
+                if (estudiante != null)
+                {
+                    estudiante.TieneDni = dto.TieneDni;
+                    estudiante.TieneDniPadre = dto.TieneDniPadre;
+                    estudiante.TieneDniMadre = dto.TieneDniMadre;
+                    estudiante.TieneDniTutor = dto.TieneDniTutor;
+                    estudiante.TienePartidaNacimiento = dto.TienePartidaNacimiento;
+                    estudiante.TieneCUS = dto.TieneCUS;
+                    estudiante.TieneISA = dto.TieneISA;
+                    estudiante.TieneConstanciaDomicilio = dto.TieneConstanciaDomicilio;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = cursoId });
+        }
+
+
+
+
+        public async Task<IActionResult> Details(int id)
+        {
+            // Buscar curso con sus estudiantes
+            var curso = await _context.Cursos
+                .Include(c => c.Estudiantes)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (curso == null)
+                return NotFound();
+
+            // Crear el ViewModel principal
+            var viewModel = new CursoFichaMedicaViewModel
+            {
+                Curso = curso,
+                Estudiantes = new List<EstudianteConFaltasViewModel>()
+            };
+
+            // Calcular faltas totales para cada estudiante
+            foreach (var estudiante in curso.Estudiantes)
+            {
+                var asistencias = await _context.Asistencias
+                    .Where(a => a.EstudianteId == estudiante.Id)
+                    .ToListAsync();
+
+                double totalFaltasCalculadas = asistencias.Count(a => a.AusenteJustificado)
+                                             + asistencias.Count(a => a.AusenteInjustificado)
+                                             + asistencias.Count(a => a.TardanzaUncuarto) * 0.25
+                                             + asistencias.Count(a => a.TardanzaMedia) * 0.5;
+
+                viewModel.Estudiantes.Add(new EstudianteConFaltasViewModel
+                {
+                    Id = estudiante.Id,
+                    Nombre = estudiante.Nombre,
+                    Apellido = estudiante.Apellido,
+                    TieneDni = estudiante.TieneDni,
+                    TieneDniPadre = estudiante.TieneDniPadre,
+                    TieneDniMadre = estudiante.TieneDniMadre,
+                    TieneDniTutor = estudiante.TieneDniTutor,
+                    TienePartidaNacimiento = estudiante.TienePartidaNacimiento,
+                    TieneCUS = estudiante.TieneCUS,
+                    TieneISA = estudiante.TieneISA,
+                    TieneConstanciaDomicilio = estudiante.TieneConstanciaDomicilio,
+                    TotalFaltasCalculadas = totalFaltasCalculadas
+                });
+            }
+            return View(viewModel);
+
+        }
+
+            
+        
+
 
         // GET: Cursos/Create
         public IActionResult Create()

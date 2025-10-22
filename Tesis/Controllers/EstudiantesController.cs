@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Tesis.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tesis.Controllers
 {
+    [Authorize(Roles = "Administrador, Gestion")]
     public class EstudiantesController : Controller
     {
+       
         private readonly DbtesisContext _context;
 
         public EstudiantesController(DbtesisContext context)
@@ -250,6 +253,7 @@ namespace Tesis.Controllers
         }
 
         // GET: Estudiantes/Delete/5
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

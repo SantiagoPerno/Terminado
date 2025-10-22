@@ -1,8 +1,72 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model Tesis.ViewModels.EstadisticaEstudiantesViewModel
 
-<div class="text-center">
-    <h1 class="display-4">PRoA Porteña</h1>
-    <p> Agregar datos que sean utiles para la institucion</p>
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <img src="~/img/logo.jpg.png" alt="LogoProa" style="max-width: 200px;" class="mb-3" />
+        <h1 class="display-4">PRoA Porteña</h1>
+    </div>
+
+    <div class="row text-center">
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Datos de la institución</h4>
+                    <p><strong>Escuela:</strong> Escuela Experimental con énfasis en TIC</p>
+                    <p><strong>Programa:</strong> Programa Avanzado de Educación Secundaria con énfasis en Tecnologías de la Información y Comunicación</p>
+                    <p><strong>Inspección:</strong> X </p>
+                    <p><strong>Sede:</strong> PORTEÑA</p>
+                    <p><strong>EE:</strong> 0311452</p>
+                    <p><strong>CUE:</strong> 1405508-00</p>
+                    <p><strong>Dirección:</strong> Av. Córdoba esquina San Luis</p>
+                    <p><strong>Teléfono:</strong> (03564) 450656</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Personal Directivo</h4>
+                    <ul class="list-unstyled text-start">
+                        <li><strong>Director:</strong><br> Juan Pérez - DNI: 12345678<br>juanperez@proa.edu.ar<br>Tel: 351-1234567</li>
+                        <hr>
+                        <li><strong>Preceptoras:</strong><br> Laura Gómez - DNI: 23456789<br>laura@proa.edu.ar<br>Tel: 351-2345678<br><br>Mariana Ruiz - DNI: 34567890<br>mariana@proa.edu.ar<br>Tel: 351-3456789</li>
+                        <hr>
+                        <li><strong>Coordinadoras:</strong><br> Ana López - DNI: 45678901<br>ana@proa.edu.ar<br>Tel: 351-4567890<br><br>Lucía Méndez - DNI: 56789012<br>lucia@proa.edu.ar<br>Tel: 351-5678901</li>
+                        <hr>
+                        <li><strong>Secretaria:</strong><br> Carla Torres - DNI: 67890123<br>carla@proa.edu.ar<br>Tel: 351-6789012</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Estudiantes</h4>
+                    <p><strong>Total en la escuela:</strong> @Model.TotalEstudiantes</p>
+                    <ul class="list-unstyled">
+                        @foreach (var curso in Model.EstudiantesPorCurso)
+                        {
+                            <li><strong>@curso.Key:</strong> @curso.Value</li>
+                        }
+                    </ul>
+                    <p><strong>Fotocopias pagas por la municipalidad:</strong></p>
+                    <ul class="list-unstyled">
+                        <li><strong>1° año:</strong> 8</li>
+                        <li><strong>2° año:</strong> 5</li>
+                        <li><strong>3° año:</strong> 7</li>
+                        <li><strong>4° año:</strong> 6</li>
+                        <li><strong>5° año:</strong> 4</li>
+                        <li><strong>6° año:</strong> 5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

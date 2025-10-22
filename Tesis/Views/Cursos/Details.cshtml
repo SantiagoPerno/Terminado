@@ -1,4 +1,4 @@
-﻿@model Tesis.Models.Cursos
+﻿@model Tesis.ViewModels.CursoFichaMedicaViewModel
 
 @{
     ViewData["Title"] = "Ficha médica";
@@ -54,43 +54,89 @@
     }
 </style>
 
-<h2>Estudiantes de: @Model.Nombre</h2>
+<h2>Estudiantes de: @Model.Curso.Nombre</h2>
 
-<table class="table tabla-ficha">
-    <thead>
-        <tr>
-            <th>Estudiante</th>
-            <th>Faltas</th>
-            <th colspan="5" class="text-center">📋 Ficha médica</th>
-        </tr>
-        <tr>
-            <th></th>
-            <th></th>
-            <th>Título 1</th>
-            <th>Título 2</th>
-            <th>Título 3</th>
-            <th>Título 4</th>
-            <th>Título 5</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var estudiante in Model.Estudiantes)
-        {
+<form asp-action="GuardarFichaMedica" method="post">
+    <input type="hidden" name="cursoId" value="@Model.Curso.Id" />
+
+    <table class="table tabla-ficha">
+        <thead>
             <tr>
-                <td class="text-start">@estudiante.Nombre @estudiante.Apellido</td>
-                <td>@estudiante.TotalFaltas</td>
-                <td><input class="checkbox-rounded" type="checkbox" name="titulo1[@estudiante.Id]" /></td>
-                <td><input class="checkbox-rounded" type="checkbox" name="titulo2[@estudiante.Id]" /></td>
-                <td><input class="checkbox-rounded" type="checkbox" name="titulo3[@estudiante.Id]" /></td>
-                <td><input class="checkbox-rounded" type="checkbox" name="titulo4[@estudiante.Id]" /></td>
-                <td><input class="checkbox-rounded" type="checkbox" name="titulo5[@estudiante.Id]" /></td>
+                <th>Estudiante</th>
+                <th>Faltas totales</th>
+                <th colspan="8" class="text-center">📋 Legajo estudiante</th>
             </tr>
-        }
-    </tbody>
-</table>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Dni</th>
+                <th>Dni padre</th>
+                <th>Dni madre</th>
+                <th>Dni tutor/ra</th>
+                <th>Partida de nacimiento</th>
+                <th>CUS</th>
+                <th>ISA</th>
+                <th>Constancia domicilio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int index = 0;
+            }
+            @foreach (var estudiante in Model.Estudiantes)
+            {
+                <tr>
+                    <td class="text-start">@estudiante.Nombre @estudiante.Apellido</td>
+                    <td>@estudiante.TotalFaltasCalculadas.ToString("0.##")</td>
 
-<div class="d-flex justify-content-start mt-3">
-    <a asp-action="Index" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Volver
-    </a>
-</div>
+                    <!-- ID oculto para este índice -->
+                    <input type="hidden" name="datos[@index].Id" value="@estudiante.Id" />
+
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneDni" value="true" @(estudiante.TieneDni ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneDni" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneDniPadre" value="true" @(estudiante.TieneDniPadre ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneDniPadre" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneDniMadre" value="true" @(estudiante.TieneDniMadre ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneDniMadre" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneDniTutor" value="true" @(estudiante.TieneDniTutor ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneDniTutor" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TienePartidaNacimiento" value="true" @(estudiante.TienePartidaNacimiento ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TienePartidaNacimiento" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneCUS" value="true" @(estudiante.TieneCUS ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneCUS" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneISA" value="true" @(estudiante.TieneISA ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneISA" value="false" />
+                    </td>
+                    <td>
+                        <input class="checkbox-rounded" type="checkbox" name="datos[@index].TieneConstanciaDomicilio" value="true" @(estudiante.TieneConstanciaDomicilio ? "checked" : "") />
+                        <input type="hidden" name="datos[@index].TieneConstanciaDomicilio" value="false" />
+                    </td>
+                </tr>
+                index++;
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-start mt-3">
+        <a asp-action="Index" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+
+        <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-save me-2"></i>Guardar cambios
+        </button>
+    </div>
+</form>

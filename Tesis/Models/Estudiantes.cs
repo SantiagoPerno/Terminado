@@ -50,6 +50,15 @@ namespace Tesis.Models
         [NotMapped]
         public int TotalFaltas { get; set; }
         public ICollection<Asistencias> Asistencias { get; set; } = new List<Asistencias>();
+
+        public bool TieneDni { get; set; }
+        public bool TieneDniPadre { get; set; }
+        public bool TieneDniMadre { get; set; }
+        public bool TieneDniTutor { get; set; }
+        public bool TienePartidaNacimiento { get; set; }
+        public bool TieneCUS { get; set; }
+        public bool TieneISA { get; set; }
+        public bool TieneConstanciaDomicilio { get; set; }
     }
     public enum GrupoSanguineo
     {

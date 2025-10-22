@@ -156,6 +156,30 @@ namespace Tesis.Migrations
                     b.Property<string>("TelefonoTutor")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("TieneCUS")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneConstanciaDomicilio")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneDni")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneDniMadre")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneDniPadre")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneDniTutor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TieneISA")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TienePartidaNacimiento")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CursoId");
